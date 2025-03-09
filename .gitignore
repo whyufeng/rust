@@ -1,0 +1,56 @@
+# Dependencies
+node_modules/
+/frontend/node_modules/
+
+# Rust
+/backend/target/
+/backend/**/*.rs.bk
+Cargo.lock
+
+# Production & Build
+/frontend/build/
+/frontend/dist/
+/frontend/dist-ssr/
+/frontend/coverage/
+
+# Environment
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# Debug & Logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+logs
+*.log
+
+# TypeScript
+*.tsbuildinfo
+next-env.d.ts
+
+# Cache
+.cache
+.next
+.vercel
+*.local
+
+# IDE & Editor
+.vscode/*
+!.vscode/extensions.json
+.idea/
+*.swp
+*.swo
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+# OS
+.DS_Store
+Thumbs.db 

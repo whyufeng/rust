@@ -1,0 +1,28 @@
+[package]
+name = "rust_advent"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+axum = { version = "0.8.1", features = ["macros"] }
+tokio = { version = "1", features = ["full"] }
+reqwest = { version = "0.11", features = ["json"] }
+serde = { version = "1", features = ["derive"] }
+tower-http = { version = "0.5", features = ["cors"] }
+serde_json = "1"
+dotenv = "0.15"
+sea-orm = { version = "1.1.5", features = [
+    "sqlx-mysql",
+    "runtime-tokio-native-tls",
+    "macros",
+] }
+async-std = { version = "1.10.0", features = ["attributes"] }
+chrono = "0.4.19"
+chrono-tz = "0.8"
+utoipa = { version = "^5.3.1", features = ["axum_extras"] }
+utoipa-swagger-ui = { version = "9.0.0", features = ["axum"] }
+utoipa-axum = "0.2.0"
+
+
+[dev-dependencies]
+anyhow = "1.0.44"
