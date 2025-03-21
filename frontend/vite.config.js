@@ -14,5 +14,5 @@ export default defineConfig(({ mode }) => ({
       },
     },
   },
-  base: mode === 'production' ? '/app/' : '/',
+  base: '/'
 }));

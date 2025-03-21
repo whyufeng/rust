@@ -2,6 +2,7 @@ mod entities;
 mod utils;
 
 use axum::{http::Method, routing::get, Router};
+use log::{info, warn};
 use std::net::SocketAddr;
 use tokio::net::TcpListener;
 use tower_http::cors::{Any, CorsLayer};
@@ -11,6 +12,8 @@ use utoipa_swagger_ui::SwaggerUi;
 
 #[tokio::main]
 async fn main() {
+    env_logger::init();
+
     // tokio::spawn creates a new task that can run on any thread
     tokio::spawn(async {
         utils::scheduler::scheduler().await; // Must be Send + Sync
@@ -30,6 +33,17 @@ async fn main() {
         .layer(cors);
 
     let addr = SocketAddr::from(([0, 0, 0, 0], 3000));
-    let listener = TcpListener::bind(addr).await.unwrap();
-    axum::serve(listener, app.into_make_service()).await.unwrap();
+    info!("🚀 Server is starting on http://0.0.0.0:3000");
+
+    match TcpListener::bind(addr).await {
+        Ok(listener) => {
+            info!("✅ Server is running on http://0.0.0.0:3000");
+            if let Err(e) = axum::serve(listener, app.into_make_service()).await {
+                warn!("❌ Server error: {}", e);
+            }
+        }
+        Err(e) => {
+            warn!("❌ Failed to bind address: {}", e);
+        }
+    }
 }
