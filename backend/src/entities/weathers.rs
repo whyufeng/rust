@@ -109,6 +109,7 @@ impl Entity {
             }
         }
 
+        filtered_records.reverse();
         Ok(Json(filtered_records))
     }
 }

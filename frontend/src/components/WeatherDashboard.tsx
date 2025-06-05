@@ -18,6 +18,24 @@ export function WeatherDashboard() {
   const [loading, setLoading] = useState(false);
   const toast = useToast();
 
+  const formatLocalTime = (utcTime: string) => {
+    try {
+      const localDate = new Date(utcTime);
+      return localDate.toLocaleString('en-US', {
+        year: 'numeric',
+        month: '2-digit',
+        day: '2-digit',
+        hour: '2-digit',
+        minute: '2-digit',
+        second: '2-digit',
+        timeZoneName: 'short'
+      });
+    } catch (error) {
+      console.error('Error formatting time:', error);
+      return utcTime;
+    }
+  };
+
   const fetchWeather = async () => {
     setLoading(true);
     try {
@@ -70,7 +88,9 @@ export function WeatherDashboard() {
               <Text>Temperature: {weather.temperature}°C</Text>
               <Text>Humidity: {weather.humidity}%</Text>
               <Text>Description: {weather.description}</Text>
-              <Text>Record Time: {weather.record_time}</Text>
+              <Text>Local Time: {formatLocalTime(weather.record_time)}</Text>
+              <Text>Sunrise: {weather.sunrise}</Text>
+              <Text>Sunset: {weather.sunset}</Text>
             </VStack>
           </Box>
         )}

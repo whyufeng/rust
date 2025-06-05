@@ -1,7 +1,7 @@
 use crate::entities::{prelude::*, weathers};
 use crate::utils::models::WeatherResponse;
 use axum::{extract::Path, http::StatusCode, response::IntoResponse};
-use chrono::{DateTime, Local};
+use chrono::{DateTime, Utc};
 use chrono_tz::America::Chicago;
 use dotenv::dotenv;
 use sea_orm::{Database, EntityTrait, Set};
@@ -50,7 +50,7 @@ pub async fn load_weather_to_db() -> Result<(), Box<dyn Error + Send + Sync>> {
             let url: String = env::var("MYSQL_DATABASE_URL").expect("DATABASE_URL must be set");
             let db = &Database::connect(url).await.unwrap();
 
-            let now_local = Local::now().naive_local();
+            let now_utc = Utc::now().naive_utc();
             let sunrise_time = DateTime::from_timestamp(response.sys.sunrise as i64, 0)
                 .unwrap()
                 .with_timezone(&Chicago)
@@ -62,7 +62,7 @@ pub async fn load_weather_to_db() -> Result<(), Box<dyn Error + Send + Sync>> {
                 .time();
 
             let new_weather = weathers::ActiveModel {
-                record_time: Set(now_local),
+                record_time: Set(now_utc),
                 description: Set(Some(response.weather[0].description.to_owned())),
                 temp: Set(response.main.temp as f32),
                 temp_max: Set(Some(response.main.temp_max as f32)),
